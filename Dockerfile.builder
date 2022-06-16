@@ -1,6 +1,6 @@
-FROM phusion/baseimage:focal-1.0.0-alpha1-arm64
+FROM phusion/baseimage:focal-1.2.0
 
-ARG OTP_VSN=23.1-1
+ARG OTP_VSN=24.0-1
 
 # required packages
 RUN apt-get update && apt-get install -y \
@@ -21,12 +21,22 @@ RUN apt-get update && apt-get install -y \
     unixodbc-dev \
     gnupg \
     zlib1g-dev \
-    wget && \
-    wget http://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb && \
-    dpkg -i erlang-solutions_2.0_all.deb && \
-    apt-get update && \
-    apt-get install -y esl-erlang=1:$OTP_VSN && \
-    apt-get clean
+    wget 
+
+RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf 
+RUN chmod +x ~/.asdf/asdf.sh ~/.asdf/completions/asdf.bash
+RUN echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.bashrc
+RUN echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc # optional
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+RUN source ~/.bashrc; /root/.asdf/bin/asdf plugin-add erlang
+RUN /root/.asdf/bin/asdf install erlang 24.3.2
+
+   
+# RUN wget http://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb && \
+#     dpkg -i erlang-solutions_2.0_all.deb && \
+#     apt-get update && \
+#     apt-get install -y esl-erlang=1:$OTP_VSN && \
+#     apt-get clean
 
 COPY ./builder/build.sh /build.sh
 VOLUME /builds
