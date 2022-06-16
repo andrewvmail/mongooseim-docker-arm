@@ -30,7 +30,7 @@ RUN echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc # optional
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN source ~/.bashrc; /root/.asdf/bin/asdf plugin-add erlang
 RUN /root/.asdf/bin/asdf install erlang 24.3.2
-
+RUN /root/.asdf/bin/asdf global erlang 24.3.2
    
 # RUN wget http://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb && \
 #     dpkg -i erlang-solutions_2.0_all.deb && \
