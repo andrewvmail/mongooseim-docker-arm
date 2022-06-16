@@ -31,13 +31,6 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN source ~/.bashrc; /root/.asdf/bin/asdf plugin-add erlang
 RUN /root/.asdf/bin/asdf install erlang 24.3.2
 RUN /root/.asdf/bin/asdf global erlang 24.3.2
-   
-# RUN wget http://packages.erlang-solutions.com/erlang-solutions_2.0_all.deb && \
-#     dpkg -i erlang-solutions_2.0_all.deb && \
-#     apt-get update && \
-#     apt-get install -y esl-erlang=1:$OTP_VSN && \
-#     apt-get clean
-
 COPY ./builder/build.sh /build.sh
 VOLUME /builds
 
